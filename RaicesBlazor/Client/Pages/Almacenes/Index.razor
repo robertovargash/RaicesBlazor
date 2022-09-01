@@ -1,0 +1,59 @@
+﻿@page "/almacenes"
+@inject HttpClient Http;
+@inject NavigationManager NavigationManager
+<h1>Lista de Almacenes</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href="/almacenes/nuevo" class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Nuevo almacén
+        </a>
+    </div>
+</div>
+
+<br />
+@if (almacenes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead class="table-success">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Descripción</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var almacen in almacenes)
+            {
+                <tr>
+                    <td>@almacen.Id</td>
+                    <td>@almacen.Nombre</td>
+                    <td>@almacen.Descripcion</td>
+                    <td>
+                        <a href='/almacenes/editar/@almacen.Id' class="btn btn-secondary" role="button">
+                            Editar
+                        </a>
+                        <a href='/almacenes/borrar/@almacen.Id' class="btn btn-danger" role="button">
+                            Borrar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Almacen> almacenes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        almacenes = await Http.GetFromJsonAsync<List<Almacen>>("api/Almacenes");
+    }
+}

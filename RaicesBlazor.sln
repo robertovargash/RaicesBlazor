@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaicesBlazor.Server", "RaicesBlazor\Server\RaicesBlazor.Server.csproj", "{3A76E2B6-9CA5-45B5-8551-3843456DF43F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaicesBlazor.Server", "RaicesBlazor\Server\RaicesBlazor.Server.csproj", "{3A76E2B6-9CA5-45B5-8551-3843456DF43F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaicesBlazor.Client", "RaicesBlazor\Client\RaicesBlazor.Client.csproj", "{364A108D-B679-4FFC-BFE9-FE195EF71707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaicesBlazor.Client", "RaicesBlazor\Client\RaicesBlazor.Client.csproj", "{364A108D-B679-4FFC-BFE9-FE195EF71707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaicesBlazor.Shared", "RaicesBlazor\Shared\RaicesBlazor.Shared.csproj", "{84DF7003-1C4D-4D8A-A14F-A535DF6D3C02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaicesBlazor.Shared", "RaicesBlazor\Shared\RaicesBlazor.Shared.csproj", "{84DF7003-1C4D-4D8A-A14F-A535DF6D3C02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

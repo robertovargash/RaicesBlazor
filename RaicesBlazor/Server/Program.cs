@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using RaicesBlazor.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+//Aqui es donde se pone la conexion a base de Datos, desde el archivo appsettings.json
+builder.Services.AddDbContext<ApplicationDBContext>(
+    options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionABd")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
