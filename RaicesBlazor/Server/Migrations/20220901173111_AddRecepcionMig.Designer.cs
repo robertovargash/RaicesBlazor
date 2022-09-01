@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaicesBlazor.Server;
 
@@ -11,9 +12,10 @@ using RaicesBlazor.Server;
 namespace RaicesBlazor.Server.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220901173111_AddRecepcionMig")]
+    partial class AddRecepcionMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,132 +245,6 @@ namespace RaicesBlazor.Server.Migrations
                     b.ToTable("RecepcionItem");
                 });
 
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.TipoTProducto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoTProducto");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.TProducto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Disponible")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DisponibleMP")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<decimal>("Preciomanoobra")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<int>("TipoTProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("ValorBruto")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TipoTProductoId");
-
-                    b.ToTable("TProducto");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Vale", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("AlmacenId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Numero")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Observaciones")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("P_autoriza")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("P_entrega")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("P_solicita")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("TipoVale")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlmacenId");
-
-                    b.ToTable("Vale");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ValeItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Cantidad")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<int>("MercanciaId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<int>("ValeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MercanciaId");
-
-                    b.HasIndex("ValeId");
-
-                    b.ToTable("ValeItem");
-                });
-
             modelBuilder.Entity("RaicesBlazor.Shared.Modelos.AlmacenItems", b =>
                 {
                     b.HasOne("RaicesBlazor.Shared.Modelos.Almacen", "Almacen")
@@ -427,47 +303,6 @@ namespace RaicesBlazor.Server.Migrations
                     b.Navigation("Mercancia");
 
                     b.Navigation("Recepcion");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.TProducto", b =>
-                {
-                    b.HasOne("RaicesBlazor.Shared.Modelos.TipoTProducto", "TipoTProducto")
-                        .WithMany()
-                        .HasForeignKey("TipoTProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TipoTProducto");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Vale", b =>
-                {
-                    b.HasOne("RaicesBlazor.Shared.Modelos.Almacen", "Almacen")
-                        .WithMany()
-                        .HasForeignKey("AlmacenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Almacen");
-                });
-
-            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ValeItem", b =>
-                {
-                    b.HasOne("RaicesBlazor.Shared.Modelos.Mercancia", "Mercancia")
-                        .WithMany()
-                        .HasForeignKey("MercanciaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RaicesBlazor.Shared.Modelos.Vale", "Vale")
-                        .WithMany()
-                        .HasForeignKey("ValeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Mercancia");
-
-                    b.Navigation("Vale");
                 });
 #pragma warning restore 612, 618
         }

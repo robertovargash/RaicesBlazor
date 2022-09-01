@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace RaicesBlazor.Shared.Modelos
 {
-    public class Almacen
+    public class Clasificacion
     {
         public int Id { get; set; }
-
         public string Nombre { get; set; } = null!;
-
-        public string? Descripcion { get; set; }
+        public string? Detalle { get; set; }
     }
 }
