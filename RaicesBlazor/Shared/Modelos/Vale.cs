@@ -24,5 +24,6 @@ namespace RaicesBlazor.Shared.Modelos
         [DefaultValue(true)]
         public bool Activo { get; set; }
         public int TipoVale { get; set; }
+        public List<ValeItem>? ValeItemList { get; set; }
     }
 }

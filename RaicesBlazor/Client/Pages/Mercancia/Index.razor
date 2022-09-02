@@ -1,0 +1,65 @@
+﻿@page "/mercancias"
+@inject HttpClient client
+@inject IJSRuntime js
+<h3>Mercancías</h3>
+<small>Adiciona mercancías.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="mercancias/create"><i class="oi oi-plus"></i> Nuevo</a>
+</div>
+<br>
+@if (mercancias == null)
+{
+    <text>Loading...</text>
+}
+else if (mercancias.Count == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mercancia</th>
+                <th>Clasificacion</th>
+                <th>Codigo</th>
+                <th>UM</th>
+                <th>Detalles</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Mercancia merc in mercancias)
+            {
+                <tr>
+                    <td>@merc.Id</td>
+                    <td>@merc.Nombre</td>
+                    <td>@merc.Clasificacion.Nombre</td>
+                    <td>@merc.Um</td>
+                    <td>@merc.Descripcion</td>
+                    <td>
+                        <a class="btn btn-success" href="mercancias/editar/@merc.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(merc.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    List<Mercancia> mercancias { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        mercancias = await client.GetFromJsonAsync<List<Mercancia>>("api/Mercancia");
+    }
+    async Task Delete(int Id)
+    {
+        var merca = mercancias.First(x => x.Id == Id);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {merca.Nombre}'s ({merca.Id}) Record?"))
+        {
+            await client.DeleteAsync($"api/Mercancia/{Id}");
+            await OnInitializedAsync();
+        }
+    }
+}

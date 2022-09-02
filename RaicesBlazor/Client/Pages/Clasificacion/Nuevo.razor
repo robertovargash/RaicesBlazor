@@ -1,0 +1,13 @@
+﻿@page "/clasificacion_mercancias/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+<h3>Creando clasificación</h3>
+<ClasificacionData ButtonText="Nuevo" clasificacion="@clasificacion" OnValidSubmit="@NuevaClasificacion" />
+@code {
+    Clasificacion clasificacion = new Clasificacion();
+    async Task NuevaClasificacion()
+    {
+        await http.PostAsJsonAsync("api/Clasificacion", clasificacion);
+        uriHelper.NavigateTo("clasificacion_mercancias");
+    }
+}

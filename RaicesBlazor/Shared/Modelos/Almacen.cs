@@ -13,5 +13,9 @@ namespace RaicesBlazor.Shared.Modelos
         public string Nombre { get; set; } = null!;
 
         public string? Descripcion { get; set; }
+
+        public List<AlmacenItems>? AlmacenItemList { get; set; }
+        public List<Recepcion>? RecepcionList { get; set; }
+        public List<Vale>? ValeList { get; set; }
     }
 }

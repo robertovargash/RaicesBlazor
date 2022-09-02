@@ -1,0 +1,20 @@
+﻿@page "/mercancias/editar/{Id:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<MercanciaData ButtonText="Update" clasificacion="clasif" OnValidSubmit="@EditarMercancia" />
+@code {
+    [Parameter] public int Id { get; set; }
+    Mercancia clasif = new Mercancia();
+    protected async override Task OnParametersSetAsync()
+    {
+        clasif = await http.GetFromJsonAsync<Mercancia>($"api/Mercancia/{Id}");
+    }
+    async Task EditarMercancia()
+    {
+        await http.PutAsJsonAsync("api/Mercancia", clasif);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("mercancias");
+    }
+}

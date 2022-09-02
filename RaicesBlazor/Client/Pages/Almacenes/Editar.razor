@@ -1,57 +1,20 @@
 ﻿@page "/almacenes/editar/{Id:int}"
-@inject HttpClient Http;
-@inject NavigationManager NavigationManager
-
-<h1>@Titulo almacén</h1>
-<hr />
-<EditForm Model="@almacen" OnValidSubmit="GuardarAlmacen">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="Name" class="form-label">Nombre almacén</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="almacen.Nombre" placeholder="Nombre" />
-        </div>
-        <ValidationMessage For="@(() => almacen.Nombre)" />
-    </div>
-    <div class="mb-3">
-        <label for="Descrption" class="form-label">Descripción</label>
-        <div class="col-md-4">
-            <InputTextArea class="form-control" @bind-Value="almacen.Descripcion" style="height:150px" placeholder="Descripción" />
-        </div>
-        <ValidationMessage For="@(() => almacen.Descripcion)" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button class="btn btn-light" @onclick="Cancel">Cancelar</button>
-    </div>
-</EditForm>
-
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<AlmacenData ButtonText="Update" almacen="almacen" OnValidSubmit="@EditarAlmacen" />
 @code {
-    [Parameter]
-    public int Id { get; set; }
-    protected string Titulo = "Editar";
-    protected Almacen almacen = new();
-
-    protected override async Task OnParametersSetAsync()
+    [Parameter] public int Id { get; set; }
+    Almacen almacen = new Almacen();
+    protected async override Task OnParametersSetAsync()
     {
-        if (Id != 0)
-        {
-            Titulo = "Editar";
-            almacen = await Http.GetFromJsonAsync<Almacen>("api/Almacenes/" + Id.ToString());
-        }
+        almacen = await http.GetFromJsonAsync<Almacen>($"api/Almacenes/{Id}");
     }
-
-    protected async Task GuardarAlmacen()
+    async Task EditarAlmacen()
     {
-        if (almacen.Id != 0)
-        {
-            await Http.PutAsJsonAsync("api/Almacenes", almacen);
-        }
-        Cancel();
+        await http.PutAsJsonAsync("api/Almacenes", almacen);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("almacenes");
     }
-
-    public void Cancel()
-    {
-        NavigationManager.NavigateTo("/almacenes");
-    }
-}
+ }

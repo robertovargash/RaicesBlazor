@@ -1,0 +1,19 @@
+﻿@page "/mercancias/create"
+@inject HttpClient http
+@inject HttpClient client
+@inject NavigationManager uriHelper
+<h3>Creando mercancía</h3>
+<MercanciaData ButtonText="Nuevo" mercancia="@merc" OnValidSubmit="@NuevaMercancia" clasificaciones="clasificacions" />
+@code {
+    Mercancia merc = new Mercancia();
+    List<Clasificacion> clasificacions;
+    protected override async Task OnInitializedAsync()
+    {
+        clasificacions = await client.GetFromJsonAsync<List<Clasificacion>>("api/Clasificacion");
+    }
+    async Task NuevaMercancia()
+    {
+        await http.PostAsJsonAsync("api/Mercancia", merc);
+        uriHelper.NavigateTo("mercancias");
+    }
+}

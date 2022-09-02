@@ -369,10 +369,53 @@ namespace RaicesBlazor.Server.Migrations
                     b.ToTable("ValeItem");
                 });
 
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ZDirecciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ZEstudiantesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ZEstudiantesId");
+
+                    b.ToTable("Direccion");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ZEstudiantes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estudiante");
+                });
+
             modelBuilder.Entity("RaicesBlazor.Shared.Modelos.AlmacenItems", b =>
                 {
                     b.HasOne("RaicesBlazor.Shared.Modelos.Almacen", "Almacen")
-                        .WithMany()
+                        .WithMany("AlmacenItemList")
                         .HasForeignKey("AlmacenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -402,7 +445,7 @@ namespace RaicesBlazor.Server.Migrations
             modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Recepcion", b =>
                 {
                     b.HasOne("RaicesBlazor.Shared.Modelos.Almacen", "Almacen")
-                        .WithMany()
+                        .WithMany("RecepcionList")
                         .HasForeignKey("AlmacenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -419,7 +462,7 @@ namespace RaicesBlazor.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("RaicesBlazor.Shared.Modelos.Recepcion", "Recepcion")
-                        .WithMany()
+                        .WithMany("RecepcionItemList")
                         .HasForeignKey("RecepcionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -443,7 +486,7 @@ namespace RaicesBlazor.Server.Migrations
             modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Vale", b =>
                 {
                     b.HasOne("RaicesBlazor.Shared.Modelos.Almacen", "Almacen")
-                        .WithMany()
+                        .WithMany("ValeList")
                         .HasForeignKey("AlmacenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,7 +503,7 @@ namespace RaicesBlazor.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("RaicesBlazor.Shared.Modelos.Vale", "Vale")
-                        .WithMany()
+                        .WithMany("ValeItemList")
                         .HasForeignKey("ValeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -468,6 +511,37 @@ namespace RaicesBlazor.Server.Migrations
                     b.Navigation("Mercancia");
 
                     b.Navigation("Vale");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ZDirecciones", b =>
+                {
+                    b.HasOne("RaicesBlazor.Shared.Modelos.ZEstudiantes", null)
+                        .WithMany("ListaDirecciones")
+                        .HasForeignKey("ZEstudiantesId");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Almacen", b =>
+                {
+                    b.Navigation("AlmacenItemList");
+
+                    b.Navigation("RecepcionList");
+
+                    b.Navigation("ValeList");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Recepcion", b =>
+                {
+                    b.Navigation("RecepcionItemList");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.Vale", b =>
+                {
+                    b.Navigation("ValeItemList");
+                });
+
+            modelBuilder.Entity("RaicesBlazor.Shared.Modelos.ZEstudiantes", b =>
+                {
+                    b.Navigation("ListaDirecciones");
                 });
 #pragma warning restore 612, 618
         }

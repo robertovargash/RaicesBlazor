@@ -1,0 +1,20 @@
+﻿@page "/clasificacion_mercancias/editar/{Id:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<ClasificacionData ButtonText="Update" clasificacion="clasif" OnValidSubmit="@EditarClasificacion" />
+@code {
+    [Parameter] public int Id { get; set; }
+    Clasificacion clasif = new Clasificacion();
+    protected async override Task OnParametersSetAsync()
+    {
+        clasif = await http.GetFromJsonAsync<Clasificacion>($"api/Clasificacion/{Id}");
+    }
+    async Task EditarClasificacion()
+    {
+        await http.PutAsJsonAsync("api/Clasificacion", clasif);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("clasificacion_mercancias");
+    }
+}

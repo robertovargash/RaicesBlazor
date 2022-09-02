@@ -1,44 +1,13 @@
 ﻿@page "/almacenes/nuevo"
-@inject HttpClient Http;
-@inject NavigationManager NavigationManager
-
-<h1>@Titulo Usuario</h1>
-<hr />
-<EditForm Model="@almacen" OnValidSubmit="GuardarAlmacen">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="Name" class="form-label">Nombre almacén</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="almacen.Nombre" placeholder="Nombre" />
-        </div>
-        <ValidationMessage For="@(() => almacen.Nombre)" />
-    </div>
-    <div class="mb-3">
-        <label for="Descrption" class="form-label">Descripción</label>
-        <div class="col-md-4">
-            <InputTextArea class="form-control" @bind-Value="almacen.Descripcion" style="height:150px" placeholder="Descripción" />
-        </div>
-        <ValidationMessage For="@(() => almacen.Descripcion)" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button class="btn btn-light" @onclick="Cancel">Cancelar</button>
-    </div>
-</EditForm>
+@inject HttpClient http
+@inject NavigationManager uriHelper
+<h3>Creando Almacén</h3>
+<AlmacenData ButtonText="Nuevo" almacen="@almacen" OnValidSubmit="@NuevoAlmacen" />
 @code {
-    [Parameter]
-    public int Id { get; set; }
-    protected string Titulo = "Nuevo";
-    protected Almacen almacen = new();
-
-    protected async Task GuardarAlmacen()
+    Almacen almacen = new Almacen();
+    async Task NuevoAlmacen()
     {
-        await Http.PostAsJsonAsync("api/Almacenes", almacen);
-        Cancel();
-    }
-
-    public void Cancel()
-    {
-        NavigationManager.NavigateTo("/almacenes");
+        await http.PostAsJsonAsync("api/Almacenes", almacen);
+        uriHelper.NavigateTo("almacenes");
     }
 }

@@ -53,5 +53,6 @@ namespace RaicesBlazor.Shared.Modelos
         public DateTime Fecha { get; set; }
         [DefaultValue(true)]
         public bool Activo { get; set; }
+        public List<RecepcionItem>? RecepcionItemList { get; set; }
     }
 }

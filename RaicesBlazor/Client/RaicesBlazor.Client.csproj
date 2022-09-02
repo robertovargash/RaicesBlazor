@@ -11,10 +11,22 @@
     <PackageReference Include="Blazorized.AdminLte.Content" Version="3.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\RaicesBlazor.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\TProductoes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Mercancia\Editar.razor" />
+    <None Include="Pages\Mercancia\Index.razor" />
+    <None Include="Pages\Mercancia\MercanciaData.razor" />
+    <None Include="Pages\Mercancia\Nuevo.razor" />
   </ItemGroup>
 
 </Project>

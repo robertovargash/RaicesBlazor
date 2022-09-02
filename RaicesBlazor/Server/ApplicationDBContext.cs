@@ -15,6 +15,9 @@ namespace RaicesBlazor.Server
         public DbSet<TProducto> TProducto { get; set; }
         public DbSet<Vale> Vale { get; set; }
         public DbSet<ValeItem> ValeItem { get; set; }
+        public DbSet<ZEstudiantes> Estudiante { get; set; }
+
+        public DbSet<ZDirecciones> Direccion { get; set; }
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             :base(options)
         {

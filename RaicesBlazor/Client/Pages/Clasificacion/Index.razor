@@ -1,0 +1,60 @@
+﻿@page "/clasificacion_mercancias"
+@inject HttpClient client
+@inject IJSRuntime js
+<h3>Developers</h3>
+<small>Add as many developers as you wish.</small>
+<div class="form-group">
+    <a class="btn btn-success" href="clasificacion_mercancias/create"><i class="oi oi-plus"></i> Nuevo</a>
+</div>
+<br>
+@if (clasificaciones == null)
+{
+    <text>Loading...</text>
+}
+else if (clasificaciones.Count == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Clasificacion</th>
+                <th>Detalle</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Clasificacion clasif in clasificaciones)
+            {
+               <tr>
+                    <td>@clasif.Id</td>
+                    <td>@clasif.Nombre</td>
+                    <td>@clasif.Detalle</td>
+                    <td>
+                        <a class="btn btn-success" href="clasificacion_mercancias/editar/@clasif.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(clasif.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    List<Clasificacion> clasificaciones { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        clasificaciones = await client.GetFromJsonAsync<List<Clasificacion>>("api/Clasificacion");
+    }
+    async Task Delete(int developerId)
+    {
+        var clasif = clasificaciones.First(x => x.Id == developerId);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {clasif.Nombre}'s ({clasif.Id}) Record?"))
+        {
+            await client.DeleteAsync($"api/Clasificacion/{developerId}");
+            await OnInitializedAsync();
+        }
+    }
+}

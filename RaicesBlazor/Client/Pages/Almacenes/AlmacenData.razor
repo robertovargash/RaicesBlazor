@@ -1,0 +1,32 @@
+﻿@inject NavigationManager uriHelper
+<EditForm Model="@almacen" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name" class="form-label">Nombre almacén</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="almacen.Nombre" placeholder="Nombre" />
+        </div>
+        <ValidationMessage For="@(() => almacen.Nombre)" />
+    </div>
+    <div class="mb-3">
+        <label for="Descrption" class="form-label">Descripción</label>
+        <div class="col-md-4">
+            <InputTextArea class="form-control" @bind-Value="almacen.Descripcion" style="height:150px" placeholder="Descripción" />
+        </div>
+        <ValidationMessage For="@(() => almacen.Descripcion)" />
+    </div>
+    <button type="submit" class="btn btn-primary">
+        @ButtonText
+        </button>
+    <button class="btn btn-light" @onclick="Cancel">Cancelar</button>
+</EditForm>
+@code {
+    [Parameter] public Almacen almacen { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Guardar";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    public void Cancel()
+    {
+        uriHelper.NavigateTo("almacenes");
+    }
+}
